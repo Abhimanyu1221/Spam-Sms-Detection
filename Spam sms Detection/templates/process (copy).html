@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Detection Visualization</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">-->
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.stage {
+    display: inline-block;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    opacity: 0.5;
+}
+
+.stage img {
+    width: 100px;
+    height: 100px;
+}
+
+.arrow {
+    font-size: 24px;
+    margin: 0 10px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+
+    <h1>Spam Detection Process</h1>
+
+    <div class="container">
+        <div class="stage" id="input-message">
+            <img src="{{ url_for('static', filename='images/input_message.png') }}" alt="Input Message">
+            <p>1. Message Received</p>
+        </div>
+        <div class="arrow">➡</div>
+        <div class="stage" id="preprocessing">
+            <img src="{{ url_for('static', filename='images/preprocessing.jpg') }}" alt="Preprocessing">
+            <p>2. Preprocessing</p>
+        </div>
+        <div class="arrow">➡</div>
+        <div class="stage" id="feature-extraction">
+            <img src="{{ url_for('static', filename='images/feature_extraction.png') }}" alt="Feature Extraction">
+            <p>3. Feature Extraction</p>
+        </div>
+        <div class="arrow">➡</div>
+        <div class="stage" id="classification">
+            <img src="{{ url_for('static', filename='images/classification.png') }}" alt="Classification">
+            <p>4. Classification</p>
+        </div>
+        <div class="arrow">➡</div>
+        <div class="stage" id="output">
+            <img src="{{ url_for('static', filename='images/spam_detected.png') }}" alt="Spam Detected" id="output-image">
+            <p id="output-text">5. Result</p>
+        </div>
+    </div>
+
+    <button onclick="startAnimation()">Start Process</button>
+
+	<script>
+		function startAnimation() {
+    let stages = document.querySelectorAll(".stage");
+    let outputImage = document.getElementById("output-image");
+    let outputText = document.getElementById("output-text");
+
+    let delay = 1000;
+
+    stages.forEach((stage, index) => {
+        setTimeout(() => {
+            stage.style.transform = "scale(1.1)";
+            stage.style.opacity = "1";
+            if (index > 0) stages[index - 1].style.transform = "scale(1)";
+        }, delay * (index + 1));
+    });
+
+    setTimeout(() => {
+        let isSpam = Math.random() > 0.5; // Random result for demo
+        outputImage.src = isSpam ? "static/images/spam_detected.png" : "static/images/not_spam.png";
+        outputText.innerText = isSpam ? "Spam Detected" : "Not Spam/Spam";
+        outputText.style.color = isSpam ? "red" : "green";
+    }, delay * (stages.length + 1));
+}
+	</script>
+</body>
+</html
